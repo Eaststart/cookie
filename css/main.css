@@ -1,0 +1,16 @@
+html{height:100%;}
+body{height:100%;}
+.bg{position:absolute;background:#fff;width:100%;height:100%;opacity:0;filter:alpha(opacity=0);display:none;}
+.dataBox{display:none;position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;width:500px;height:400px;background-color:#eeeeee;border:1px solid black;}
+.dataBox .dataTitle{padding:10px;border-bottom:1px solid black;}
+.dataBox .dataTitle span{color:black;font-size:20px;cursor:pointer;}
+.dataBox .dataContent{padding:10px;}
+.dataBox .dataContent div{margin-top:12px;font-size:18px;text-align:center;}
+.dataBox .dataContent div input{width:200px;height:24px;font-size:16px;}
+.dataBox .dataContent span{width:200px;height:40px;display:inline-block;background-color:dimgrey;color:#fff;text-align:center;line-height:40px;border-radius:5px;font-size:20px;cursor:pointer;}
+
+.wrap{height:100%;width:100%;background-color:#eeeeee;}
+.wrap .topBar{height:100px;background-color:grey;}
+.wrap .leftBox{width:120px;height:90%;background-color:deepskyblue;text-align:center;}
+.wrap .leftBox li{height:30px;line-height:30px;cursor:pointer;color:#fff;font-size:18px;}
+.wrap .rightBox{width:1229px;height:90%;background-color:lightskyblue;}

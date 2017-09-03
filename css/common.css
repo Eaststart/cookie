@@ -1,0 +1,3 @@
+.fl{float:left;}
+.fr{float:right;}
+.clearfix:after{content:'.';clear:both;display:block;height:0;visibility:hidden;}
