@@ -98,8 +98,6 @@ window.onload=function(){
 
         }
     };
-
-
     // 登陆
     function fnLogin(){
         if(oLoginInput[0]){
