@@ -2,12 +2,10 @@
  * Created by Administrator on 2017/8/31.
  */
 function setCookie(key,value,expries){
-
     if(arguments.length<2){
         return '参数错误'
     }else{
         var str=key+'='+value;
-
         if(expries){
             var d=new Date();
             d.setTime(parseInt(expries)+d.getTime());

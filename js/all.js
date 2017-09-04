@@ -21,3 +21,11 @@ function dataId(oldValue,target){
     }
     return false;
 }
+
+function getStyle(oElement,attr){
+    if(getComputedStyle){
+        return getComputedStyle(oElement,'')[attr];
+    }else{
+        return oElement.currentStyle[attr];
+    }
+}

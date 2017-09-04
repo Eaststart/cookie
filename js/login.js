@@ -1,3 +1,4 @@
+
 window.onload=function(){
     // oSignInput[0] 用户名
     // oSignInput[1] 电话号码
@@ -38,7 +39,6 @@ window.onload=function(){
         oA[x].index=x;
         oInput[x].index=x;
         oA[x].onclick=function(){
-
             for(var y=0;y<oA.length;y++){
                 oA[y].className='';
                 oInput[y].style.display='none';
@@ -47,121 +47,104 @@ window.onload=function(){
             oInput[this.index].style.display='block';
         }
     }
-
     // 登陆事件
     oLoginBtn.onclick=function(){
-        fnLogin();
-        arr1=[];
-        arr2=[];
-        for(var h=0;h<oSignInput.length;h++){
-            cutEnterChild(oSignInput[h]);
+        for(var h=0;h<oLoginInput.length;h++){
+            fnLogin(oLoginInput[h]);
+            arr1=[];
+            arr2=[];
         }
         removeValue(oSignInput);
     };
-
+    // 登录回车
+    for(var x=0;x<oLoginInput.length;x++){
+        oLoginInput[x].index=x;
+        oLoginInput[x].onkeyup=function(event){
+            var event=event || window.event;
+            if(event.keyCode===13){
+                flag= oA[0].className==='active' ? true : false;
+                if(flag){
+                    fnLogin(oLoginInput[this.index]);
+                    arr1=[];
+                    arr2=[];
+                    removeValue(oSignInput);
+                }
+            }
+        }
+    }
     //注册事件
     oSignBtn.onclick=function(){
-        fnSign();
-        insertData();
-        arr1=[];
-        arr2=[];
-        for(var h=0;h<oLoginInput.length;h++){
-            cutEnterChild(oLoginInput[h]);
+        for(var x=0;x<oSignInput.length;x++){
+            fnSign(oSignInput[x]);
+            insertData();
+            arr1=[];
+            arr2=[];
         }
         removeValue(oLoginInput);
     };
+    // 注册回车事件
+    for(var u=0;u<oSignInput.length;u++){
+        oSignInput[u].index=u;
+        oSignInput[u].onkeyup=function(event){
+            var event=event || window.event;
+            if(event.keyCode===13){
+                flag= oA[0].className==='active' ? true : false;
 
-    // 回车事件
-    document.onkeydown=function(event){
-        var event=event || window.event;
-        if(event.keyCode===13){
-            flag= oA[0].className==='active' ? true : false;
-            if(flag){
-                fnLogin();
-                arr1=[];
-                arr2=[];
-                for(var h=0;h<oSignInput.length;h++){
-                    cutEnterChild(oSignInput[h]);
+                if(flag===false){
+                    console.log(oSignInput[this.index]);
+                    fnSign(oSignInput[this.index]);
+                    insertData();
+                    arr1=[];
+                    arr2=[];
+                    removeValue(oLoginInput);
                 }
-                removeValue(oSignInput);
             }
-            if(flag===false){
-                fnSign();
-                insertData();
-                arr1=[];
-                arr2=[];
-                for(var h=0;h<oLoginInput.length;h++){
-                    cutEnterChild(oLoginInput[h]);
-                }
-                removeValue(oLoginInput);
-            }
-
         }
-    };
+    }
     // 登陆
-    function fnLogin(){
-        if(oLoginInput[0]){
-            cutEnterChild(oLoginInput[0]);
-            if(oLoginInput[0].value===''){
-                emptyCreateSpan(oLoginInput[0]);
-            }else if(!checkUsername(getCookie('user'),oLoginInput[0])){
-                createOspan(oLoginInput[0],promptArr[0].content2);
-                cutChild(oLoginInput[0]);
-            }
-        }
-        if(oLoginInput[1]){
-            cutEnterChild(oLoginInput[1]);
-            if(oLoginInput[1].value===''){
-                emptyCreateSpan(oLoginInput[1]);
-            }else if(!checkPwd(getCookie('user'),oLoginInput[1])){
-                createOspan(oLoginInput[1],promptArr[1].content2);
-                cutChild(oLoginInput[1]);
+    function fnLogin(oElement){
+        oneChild(oElement);
+        for(var x=0;x<oLoginInput.length;x++){
+            if(oLoginInput[x].value===''){
+                createOspan(oLoginInput[x],promptArr[x].content1);
             }else{
-                cutChild(oLoginInput[1]);
+                oneChild(oElement);
             }
         }
+        if(oElement===oLoginInput[0] && !checkUsername(getCookie('user'),oLoginInput[0])){
+            createOspan(oElement,promptArr[0].content2);
+        }
+        if(oElement===oLoginInput[1] && !checkPwd(getCookie('user'),oLoginInput[1])){
+            createOspan(oElement,promptArr[1].content2);
+        }
+        twoChild(oElement);
         if(checkValue(oLoginInput)){
             location.href='index.html';
         }
     }
     // 注册
-    function fnSign(){
-        if(oSignInput[0]){
-            cutEnterChild(oSignInput[0]);
-            if(oSignInput[0].value===''){
-                emptyCreateSpan(oSignInput[0]);
-            }else if(!(/^[a-zA-Z_]\w{5,15}$/).test(oSignInput[0].value)){
-                createOspan(oSignInput[0],promptArr[2].content2);
-                cutChild(oSignInput[0]);
+    function fnSign(oElement){
+        oneChild(oElement);
+        for(var x=0;x<oSignInput.length;x++){
+            if(oSignInput[x].value===''){
+                createOspan(oSignInput[x],promptArr[x+2].content1);
+            }else{
+                oneChild(oElement);
             }
         }
-        if(oSignInput[1]){
-            cutEnterChild(oSignInput[1]);
-            if(oSignInput[1].value===''){
-                emptyCreateSpan(oSignInput[1]);
-            }else if(!(/^1\d{10}$/).test(oSignInput[1].value)){
-                createOspan(oSignInput[1],promptArr[3].content2);
-                cutChild(oSignInput[1]);
-            }
+        if(oElement===oSignInput[0] && !(/^[a-zA-Z_]\w{5,15}$/).test(oElement.value)){
+            createOspan(oElement,promptArr[2].content2);
         }
-        if(oSignInput[2]){
-            cutEnterChild(oSignInput[2]);
-            if(oSignInput[2].value===''){
-                emptyCreateSpan(oSignInput[2]);
-            }else if(!(/^\w{6,26}$/).test(oSignInput[2].value)){
-                createOspan(oSignInput[2],promptArr[4].content2);
-                cutChild(oSignInput[2]);
-            }
+        if(oElement===oSignInput[1] && !(/^1\d{10}$/).test(oElement.value)){
+            createOspan(oElement,promptArr[3].content2);
         }
-        if(oSignInput[3]){
-            cutEnterChild(oSignInput[3]);
-            if(oSignInput[3].value===''){
-                emptyCreateSpan(oSignInput[3]);
-            }else if(!(oSignInput[2].value===oSignInput[3].value)){
-                createOspan(oSignInput[3],promptArr[5].content2);
-                cutChild(oSignInput[3]);
-            }
+        if(oElement===oSignInput[2] && !(/^\w{6,26}$/).test(oElement.value)){
+            createOspan(oElement,promptArr[4].content2);
         }
+        if(oElement===oSignInput[3] && !(oSignInput[2].value===oSignInput[3].value)){
+            createOspan(oElement,promptArr[5].content2);
+        }
+        twoChild(oElement);
         if(checkValue(oSignInput)){
             for(var y=0;y<oSignInput.length;y++){
                 if(oSignInput[y]!==oSignInput[2]){
@@ -177,22 +160,20 @@ window.onload=function(){
                 pwd:arr1[2]
             };
             arr2.push(oInputJson);
-            // console.log(arr2);
-            // removeValue();
         }
     }
     // 插入数据
     function insertData(){
         if(getCookie('user')!==null){
             if(checkUsername(getCookie('user'),oSignInput[0])){
-                cutEnterChild(oSignInput[0]);
-                var oSpan=createOspan(oSignInput[0],promptArr[2].content3);
-                cutChild(oSpan);
+                oneChild(oSignInput[0]);
+                createOspan(oSignInput[0],promptArr[2].content3);
+                twoChild(oSignInput[0]);
             }
             if(checkTel(getCookie('user'),oSignInput[1])){
-                cutEnterChild(oSignInput[1]);
-                var oSpan=createOspan(oSignInput[1],promptArr[3].content3);
-                cutChild(oSpan);
+                oneChild(oSignInput[1]);
+                createOspan(oSignInput[1],promptArr[3].content3);
+                twoChild(oSignInput[1]);
             }
             if(checkValue(oSignInput)){
                 var arr3=[];
@@ -224,27 +205,42 @@ window.onload=function(){
                 location.href='login.html';
             }
         },1000);
-
+    }
+    function checkData(arrCookie,newData,prompt){
+        var arr=JOSN.parse(arrCookie);
+        if(arr===null){
+            
+        }
     }
     // 匹配密码
     function checkPwd(arrCookie,newData){
         var arr=JSON.parse(arrCookie);
-        for(var x=0;x<arr.length;x++){
-            if(newData.value===arr[x].pwd){
-                return true;
+        if(arr===null){
+            createOspan(oLoginInput[1],promptArr[1].content2);
+            twoChild(oLoginInput[1]);
+        }else{
+            for(var x=0;x<arr.length;x++){
+                if(newData.value===arr[x].pwd){
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
     // 判断数据重复
     function checkUsername(arrCookie,newData){
         var arr=JSON.parse(arrCookie);
-        for(var x=0;x<arr.length;x++){
-            if(newData.value===arr[x].username){
-                return true;
+        if(arr===null){
+            createOspan(oLoginInput[0],promptArr[0].content2);
+            twoChild(oLoginInput[0]);
+        }else{
+            for(var x=0;x<arr.length;x++){
+                if(newData.value===arr[x].username){
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
     // 手机号查重
     function checkTel(arrCookie,newData){
@@ -256,7 +252,6 @@ window.onload=function(){
         }
         return false;
     }
-
     // 四个input全不为空时判断
     function checkValue(){
         var num1=0,num2=0;
@@ -267,7 +262,7 @@ window.onload=function(){
                         num1++;
                     }
                 }
-                if(num1==4){
+                if(num1==oSignInput.length){
                     return true;
                 }
                 return false;
@@ -278,7 +273,7 @@ window.onload=function(){
                         num2++;
                     }
                 }
-                if(num2==2){
+                if(num2==oLoginInput.length){
                     return true;
                 }
                 return false;
@@ -313,38 +308,29 @@ window.onload=function(){
         }
     }
 
-    //节点控制函数
-    function cutChild(oSpan){
+    //节点控制函数 两个
+    function twoChild(oSpan){
         var oSpanNew=oSpan.parentNode;
+        console.log(oSpanNew);
         if(oSpanNew.childNodes.length>2){
             oSpanNew.removeChild(oSpanNew.lastChild);
         }
     }
-    // 输入框为空时 生成提示
-    function emptyCreateSpan(oNode){
-        for(var y=0;y<promptArr.length;y++){
-            if(promptArr[y].p===oNode.getAttribute('data-id')){
-                var oSpan=createOspan(oNode,promptArr[y].content1);
-                cutChild(oNode);
-            }
-        }
-    }
 
-    // 回车 节点控制函数
-    function cutEnterChild(oElement){
+    // 回车 节点控制函数 一个
+    function oneChild(oElement){
         if(oElement.parentNode.childNodes.length>1){
             oElement.parentNode.removeChild(oElement.parentNode.lastChild);
         }
-
     }
-    //创建节点（提示）
+    //创建节点
     function createOspan(oParent,content){
         var oSpan=document.createElement('span');
         oSpan.innerHTML=content;
         oParent.parentNode.appendChild(oSpan);
-        return oSpan;
+        twoChild(oSpan);
     }
-    // 清空前端注册数据
+    // 初始化注册数据
     function removeValue(){
         for(j=0;j<arguments.length;j++){
             if(arguments[j]===oLoginInput){
@@ -359,6 +345,5 @@ window.onload=function(){
             }
         }
     }
-
 
 };
